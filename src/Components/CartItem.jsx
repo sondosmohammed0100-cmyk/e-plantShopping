@@ -1,65 +1,60 @@
 
-import { useSelector } from "react-redux";
-export default function CartItem({ cart = [], setCart }) {
-  const total = cart.reduce(
-    (sum, item) => sum + item.price * item.qty,
+import { useSelector, useDispatch } from "react-redux";
+import { removeItem, updateQuantity } from "../redux/CartSlice";
+
+export default function CartItem() {
+
+  const dispatch = useDispatch();
+  const cart = useSelector(state => state.cart.items);
+
+  const totalAmount = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
     0
   );
 
   return (
-    
-<div className="cart-container">
+    <div>
 
-  {cart.map(item => (
-    <div className="cart-card" key={item.id}>
+      <h2>Total: ${totalAmount}</h2>
 
-      <img src={item.image} alt={item.name} />
+      {cart.map(item => (
+        <div key={item.id}>
 
-      <div className="cart-info">
+          <h3>{item.name}</h3>
 
-        <h3>{item.name}</h3>
+          <p>Price: ${item.price}</p>
 
-        <p>Unit Price: ${item.price}</p>
+          <p>Total: ${item.price * item.quantity}</p>
 
-        <p>Total: ${item.price * item.qty}</p>
-
-        <p>Quantity: {item.qty}</p>
-
-        <div className="cart-buttons">
-
-          <button onClick={() => increaseQty(item)}>
+          <button
+            onClick={() =>
+              dispatch(updateQuantity({
+                id: item.id,
+                quantity: item.quantity + 1
+              }))
+            }
+          >
             +
           </button>
 
-          <button onClick={() => decreaseQty(item)}>
+          <button
+            onClick={() =>
+              dispatch(updateQuantity({
+                id: item.id,
+                quantity: item.quantity - 1
+              }))
+            }
+          >
             -
           </button>
 
-          <button className="delete"
-                  onClick={() => removeItem(item)}>
+          <button onClick={() => dispatch(removeItem(item.id))}>
             Delete
           </button>
 
         </div>
-
-      </div>
+      ))}
 
     </div>
-  ))}
-  <div className="cart-total">
-  <h2>Total Price: ${total}</h2>
-
-  <button className="checkout">
-    Checkout (Coming Soon)
-  </button>
-
-  <button className="continue">
-    Continue Shopping
-  </button>
-</div>
-
-</div>
-
   );
 }
-
