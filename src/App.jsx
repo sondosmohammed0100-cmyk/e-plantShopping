@@ -1,35 +1,21 @@
 
-import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import Home from "./Pages/Home";
+import Products from "./Pages/Products";
+import Cart from "./Pages/Cart";
+import Navbar from "./Components/Navbar";
 
 export default function App() {
-
-  const [started, setStarted] = useState(false);
-
   return (
-    <div className="home">
+    <>
+      <Navbar />
 
-      {!started ? (
-
-        <div className="landing">
-
-          <h1>🌿 Paradise Nursery</h1>
-
-          <p>
-            Discover beautiful houseplants for your home.
-          </p>
-
-          <button onClick={() => setStarted(true)}>
-            Get Started
-          </button>
-
-        </div>
-
-      ) : (
-
-        <h2>Go to Products Page</h2>
-
-      )}
-
-    </div>
+      <Routes>
+        <Route path="/" element={<Home/>} />
+        <Route path="/products" element={<Products/>} />
+        <Route path="/cart" element={<Cart/>} />
+      </Routes>
+    </>
   );
 }
+
