@@ -1,13 +1,18 @@
 
 export default function AboutUs() {
   return (
-    <div>
-      <h1>About Paradise Nursery</h1>
+    <div className="about-us-container">
+
+      <h1>About e-plantShopping</h1>
 
       <p>
-        We are an online plant shop offering
-        high-quality houseplants for your home.
+        e-plantShopping is an online platform that offers a wide variety of beautiful and healthy houseplants for your home and office.
       </p>
+
+      <p>
+        Our mission is to make plant shopping easy and accessible while promoting a greener lifestyle through high-quality plants and excellent customer service.
+      </p>
+
     </div>
   );
 }

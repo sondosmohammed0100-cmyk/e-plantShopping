@@ -1,60 +1,81 @@
 
+import { useDispatch } from "react-redux";
+import { addItem } from "../redux/CartSlice";
 import { useState } from "react";
-
-import rose from "../assets/rose.jpg";
-import tulip from "../assets/tulip.jpg";
-import cactus from "../assets/cactus.jpg";
-import aloe from "../assets/aloe.jpg";
-import palm from "../assets/palm.jpg";
-import bonsai from "../assets/bonsai.jpg";
+import { Link } from "react-router-dom";
 
 export default function ProductList() {
 
-  const [cart, setCart] = useState([]);
+  const dispatch = useDispatch();
+  const [addedItems, setAddedItems] = useState([]);
 
   const products = [
-    { id: 1, name: "Rose", price: 10, category: "Flower", image: rose },
-    { id: 2, name: "Tulip", price: 12, category: "Flower", image: tulip },
-    { id: 3, name: "Cactus", price: 8, category: "Succulent", image: cactus },
-    { id: 4, name: "Aloe Vera", price: 9, category: "Succulent", image: aloe },
-    { id: 5, name: "Palm", price: 20, category: "Tree", image: palm },
-    { id: 6, name: "Bonsai", price: 25, category: "Tree", image: bonsai }
+    { id: 1, name: "Rose", price: 10, category: "Flower", image: "/images/rose.jpg" },
+    { id: 2, name: "Tulip", price: 12, category: "Flower", image: "/images/tulip.jpg" },
+
+    { id: 3, name: "Cactus", price: 8, category: "Succulent", image: "/images/cactus.jpg" },
+    { id: 4, name: "Aloe Vera", price: 9, category: "Succulent", image: "/images/aloe.jpg" },
+
+    { id: 5, name: "Palm", price: 20, category: "Tree", image: "/images/palm.jpg" },
+    { id: 6, name: "Bonsai", price: 25, category: "Tree", image: "/images/bonsai.jpg" }
   ];
 
-  const addToCart = (item) => {
-    setCart([...cart, item]);
+  const categories = ["Flower", "Succulent", "Tree"];
+
+  const handleAdd = (product) => {
+    dispatch(addItem(product));
+    setAddedItems([...addedItems, product.id]);
   };
 
   return (
     <div>
 
-      <nav>
+      {/* NAVBAR */}
+      <nav className="navbar">
+
         <h2>🌿 Paradise Nursery</h2>
-        <p>Cart: {cart.length}</p>
+
+        <div>
+          <Link to="/">Home</Link>
+          <Link to="/products">Plants</Link>
+          <Link to="/cart">Cart</Link>
+        </div>
+
       </nav>
 
-      <div className="products-container">
+      {/* PRODUCTS BY CATEGORY */}
+      {categories.map(cat => (
+        <div key={cat}>
 
-        {products.map(p => (
-          <div className="product-card" key={p.id}>
+          <h2>{cat}</h2>
 
-            <img src={p.image} alt={p.name} />
+          <div className="products-container">
 
-            <h3>{p.name}</h3>
+            {products
+              .filter(p => p.category === cat)
+              .map(p => (
+                <div className="product-card" key={p.id}>
 
-            <p className="price">${p.price}</p>
+                  <img src={p.image} alt={p.name} />
 
-            <button
-              onClick={() => addToCart(p)}
-              disabled={cart.find(c => c.id === p.id)}
-            >
-              Add to Cart
-            </button>
+                  <h3>{p.name}</h3>
+
+                  <p>${p.price}</p>
+
+                  <button
+                    onClick={() => handleAdd(p)}
+                    disabled={addedItems.includes(p.id)}
+                  >
+                    Add to Cart
+                  </button>
+
+                </div>
+              ))}
 
           </div>
-        ))}
 
-      </div>
+        </div>
+      ))}
 
     </div>
   );
