@@ -1,0 +1,12 @@
+
+body {
+  margin: 0;
+  font-family: Arial;
+  background-image: url("./assets/bg.jpg");
+  background-size: cover;
+}
+
+.landing {
+  text-align: center;
+  padding-top: 100px;
+}
