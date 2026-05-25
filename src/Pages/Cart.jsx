@@ -1,7 +1,7 @@
 
 import CartItem from "../Components/CartItem";
 
-export default function Products() {
+export default function Cart() {
   return (
     <div>
       <CartItem/>
